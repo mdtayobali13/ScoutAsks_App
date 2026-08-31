@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/screens/auth_screen/sign_up_screen/provider/sign_up_provider.dart';
-import 'package:flutter_riverpod_template/screens/auth_screen/sign_up_verify_screen/provider/otp_verify_provider.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/utils/app_snack_bar.dart';
-import 'package:flutter_riverpod_template/utils/gap.dart';
-import 'package:flutter_riverpod_template/widgets/buttons/app_button.dart';
-import 'package:flutter_riverpod_template/widgets/inputs/app_input_widget_tow.dart';
-
+import 'package:scoutasks/constant/app_colors.dart';
+import 'package:scoutasks/screens/auth_screen/sign_up_screen/provider/sign_up_provider.dart';
+import 'package:scoutasks/screens/auth_screen/sign_up_verify_screen/provider/otp_verify_provider.dart';
+import 'package:scoutasks/utils/app_log.dart';
+import 'package:scoutasks/utils/app_size.dart';
+import 'package:scoutasks/utils/app_snack_bar.dart';
+import 'package:scoutasks/utils/gap.dart';
+import 'package:scoutasks/widgets/buttons/app_button.dart';
+import 'package:scoutasks/widgets/inputs/app_input_widget_tow.dart';
 import '../../../constant/app_asserts_image_path.dart';
 import '../../../routes/app_routes.dart';
 import '../../../routes/app_routes_key.dart';
@@ -56,74 +55,88 @@ class _SignUpVerifyScreenState extends ConsumerState<SignUpVerifyScreen> {
   Widget build(BuildContext context) {
     final isLoading = ref.watch(otpVerifyProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Form(
-          key: formKey,
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  width: AppSize.size.width * 0.8,
-                  height: AppSize.size.height * 0.14,
-                  child: Center(
-                    child: AppImage(width: AppSize.size.width * 0.8, path: AppAssertsImagePath.instance.logo),
+        child: SizedBox(
+          width: AppSize.size.width,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.width(value: 20)),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Gap(height: AppSize.width(value: 60)),
+                  // Logo
+                  SizedBox(
+                    width: AppSize.size.width * 0.45,
+                    child: AppImage(path: AppAssertsImagePath.instance.logo),
                   ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  width: AppSize.size.width * 0.8,
-                  child: AppText(
-                    text: "Sent to code your Gmail\n**@gmail.com",
+                  Gap(height: AppSize.width(value: 40)),
+                  // Title
+                  AppText(
+                    text: "Enter code",
+                    fontSize: 30,
+                    fontWeight: FontWeight.w800,
+                    color: const Color(0xFF262626),
+                  ),
+                  Gap(height: 12),
+                  // Subtitle
+                  AppText(
+                    text: "We sent code to your E-mail",
                     textAlign: TextAlign.center,
-
-                    fontWeight: FontWeight.w500,
-                    height: 1.5,
-                    fontSize: AppSize.width(value: 18),
+                    fontSize: 16,
+                    color: Colors.grey.shade600,
                   ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: AppInputWidgetTwo(
-                  controller: otpController,
-                  validator: (String? value) {
-                    if (value?.isEmpty ?? true) {
-                      return "Enter Otp";
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.number,
-                  title: "Code",
-                  hintText: "* * * * *",
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.only(right: 25, top: 4),
-                  child: Row(
+                  Gap(height: AppSize.width(value: 40)),
+
+                  // Code Field
+                  AppInputWidgetTwo(
+                    title: "Code",
+                    titleFontSize: 15,
+                    titleColor: const Color(0xFF262626),
+                    hintText: "123456",
+                    padding: EdgeInsets.zero,
+                    controller: otpController,
+                    validator: (String? value) {
+                      if (value?.isEmpty ?? true) {
+                        return "Enter code";
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.number,
+                  ),
+                  Gap(height: 12),
+
+                  // Resend Text
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      AppText(text: "If you didn't receive a code"),
-                      Gap(width: AppSize.size.width * 0.021),
+                      AppText(text: "If you didn't receive a code, ", color: Colors.grey.shade600, fontSize: 13),
                       GestureDetector(
                         onTap: () {
                           ref.read(otpVerifyProvider.notifier).resendOtp();
                         },
-                        child: AppText(text: "Resend", fontSize: AppSize.size.width * 0.04, fontWeight: FontWeight.w500),
+                        child: AppText(
+                          text: "Resend",
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF262626),
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.size.width * 0.04, vertical: AppSize.size.width * 0.04),
-                  child: AppButton(
+                  Gap(height: AppSize.width(value: 30)),
+
+                  // Verify Button
+                  AppButton(
                     onTap: isLoading
                         ? null
                         : () async {
                             if (formKey.currentState!.validate()) {
-                              final isSuccess = await ref.read(otpVerifyProvider.notifier).verifyOtp(otpController.text.trim());
+                              final isSuccess = await ref
+                                  .read(otpVerifyProvider.notifier)
+                                  .verifyOtp(otpController.text.trim());
                               if (isSuccess) {
                                 AppSnackBar.instance.success("Verified successfully!");
                                 final provider = ref.read(signUpProvider);
@@ -143,13 +156,15 @@ class _SignUpVerifyScreenState extends ConsumerState<SignUpVerifyScreen> {
                           },
                     isLoading: isLoading,
                     title: "Verify",
-                    height: AppSize.size.height * 0.06,
-                    backgroundColor: AppColors.instance.success,
-                    borderColor: AppColors.instance.success,
+                    backgroundColor: const Color(0xFF143B66),
+                    borderColor: const Color(0xFF143B66),
+                    padding: EdgeInsets.symmetric(vertical: AppSize.width(value: 15)),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ),
+                  Gap(height: AppSize.width(value: 40)),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

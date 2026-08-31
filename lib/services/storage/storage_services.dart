@@ -1,8 +1,7 @@
 import 'dart:convert';
-
-import 'package:flutter_riverpod_template/services/storage/storage_key.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:scoutasks/services/storage/storage_key.dart';
+import 'package:scoutasks/utils/app_log.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageServices {

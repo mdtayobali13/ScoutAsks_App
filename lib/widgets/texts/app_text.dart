@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/constant/app_constant.dart';
-import 'package:flutter_riverpod_template/utils/languages/language_provider.dart';
-import 'package:flutter_riverpod_template/utils/languages/translation_cache.dart';
+import 'package:scoutasks/constant/app_colors.dart';
+import 'package:scoutasks/constant/app_constant.dart';
+import 'package:scoutasks/utils/languages/language_provider.dart';
+import 'package:scoutasks/utils/languages/translation_cache.dart';
 import 'package:translator/translator.dart';
 
 class AppText extends ConsumerStatefulWidget {

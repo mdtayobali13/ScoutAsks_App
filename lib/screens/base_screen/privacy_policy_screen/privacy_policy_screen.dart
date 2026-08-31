@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/screens/base_screen/privacy_policy_screen/provider/privacy_policy_screen_provider.dart';
-import 'package:flutter_riverpod_template/screens/base_screen/widgets/base_data_widget.dart';
-import 'package:flutter_riverpod_template/screens/base_screen/widgets/base_no_found_data_widget.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/widgets/texts/app_text.dart';
-
+import 'package:scoutasks/constant/app_colors.dart';
+import 'package:scoutasks/screens/base_screen/privacy_policy_screen/provider/privacy_policy_screen_provider.dart';
+import 'package:scoutasks/screens/base_screen/widgets/base_data_widget.dart';
+import 'package:scoutasks/screens/base_screen/widgets/base_no_found_data_widget.dart';
+import 'package:scoutasks/utils/app_size.dart';
+import 'package:scoutasks/widgets/texts/app_text.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {

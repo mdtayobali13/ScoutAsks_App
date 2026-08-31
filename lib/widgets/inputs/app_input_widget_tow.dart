@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/constant/app_constant.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/utils/gap.dart';
-import 'package:flutter_riverpod_template/widgets/texts/app_text.dart';
+import 'package:scoutasks/constant/app_colors.dart';
+import 'package:scoutasks/constant/app_constant.dart';
+import 'package:scoutasks/utils/app_log.dart';
+import 'package:scoutasks/utils/app_size.dart';
+import 'package:scoutasks/utils/gap.dart';
+import 'package:scoutasks/widgets/texts/app_text.dart';
 
 class AppInputWidgetTwo extends StatefulWidget {
   const AppInputWidgetTwo({
@@ -146,7 +146,7 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
               readOnly: widget.readOnly,
               controller: widget.controller,
               minLines: widget.minLines,
-              maxLines: widget.maxLines,
+              maxLines: widget.isPassWord ? 1 : widget.maxLines,
               onChanged: widget.onChanged,
               onFieldSubmitted: widget.onFieldSubmitted,
               validator:
@@ -195,9 +195,11 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
               textAlignVertical: TextAlignVertical.top,
               style:
                   widget.style ??
-                  Theme.of(
-                    context,
-                  ).textTheme.titleSmall?.copyWith(color: widget.textColor ?? AppColors.instance.black300, fontWeight: FontWeight.w400, fontSize: 16),
+                  Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: widget.textColor ?? AppColors.instance.black300,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
               textAlign: widget.textAlign,
               decoration: InputDecoration(
                 alignLabelWithHint: widget.alignLabelWithHint,
@@ -229,8 +231,12 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
                 hintText: widget.hintText,
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 labelText: widget.labelText,
-                hintStyle: widget.hintStyle ?? Theme.of(context).textTheme.titleSmall?.copyWith(color: AppColors.instance.black300),
-                labelStyle: widget.hintStyle ?? Theme.of(context).textTheme.titleSmall?.copyWith(color: AppColors.instance.black300),
+                hintStyle:
+                    widget.hintStyle ??
+                    Theme.of(context).textTheme.titleSmall?.copyWith(color: AppColors.instance.black300),
+                labelStyle:
+                    widget.hintStyle ??
+                    Theme.of(context).textTheme.titleSmall?.copyWith(color: AppColors.instance.black300),
                 errorStyle: TextStyle(
                   color: widget.errorColor ?? AppColors.instance.error,
                   fontWeight: FontWeight.w500,

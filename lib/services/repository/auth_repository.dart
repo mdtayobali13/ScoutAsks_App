@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod_template/constant/app_api_url.dart';
-import 'package:flutter_riverpod_template/services/api/api_services.dart';
-import 'package:flutter_riverpod_template/services/api/non_auth_api.dart';
-import 'package:flutter_riverpod_template/services/storage/storage_services.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:scoutasks/constant/app_api_url.dart';
+import 'package:scoutasks/services/api/api_services.dart';
+import 'package:scoutasks/services/api/non_auth_api.dart';
+import 'package:scoutasks/services/storage/storage_services.dart';
+import 'package:scoutasks/utils/app_log.dart';
 import 'package:mime/mime.dart';
 
 class AuthRepository {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/error_handling_screen/error_screen/error_screen.dart';
-import 'package:flutter_riverpod_template/routes/app_routes.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/utils/app_theme.dart';
-import 'package:flutter_riverpod_template/utils/app_theme_configuration.dart';
-import 'package:flutter_riverpod_template/utils/observer/logger_ob_server.dart';
+import 'package:scoutasks/error_handling_screen/error_screen/error_screen.dart';
+import 'package:scoutasks/routes/app_routes.dart';
+import 'package:scoutasks/utils/app_size.dart';
+import 'package:scoutasks/utils/app_theme.dart';
+import 'package:scoutasks/utils/app_theme_configuration.dart';
+import 'package:scoutasks/utils/observer/logger_ob_server.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 final AppRoutes appRoutes = AppRoutes.instance;
@@ -61,10 +61,7 @@ class _MainAppState extends ConsumerState<MainApp> {
 
       builder: (context, child) {
         ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-          return Overlay(
-            key: appOverlayKey,
-            initialEntries: [OverlayEntry(builder: (context) => ErrorScreen())],
-          );
+          return const ErrorScreen();
         };
 
         return Overlay(

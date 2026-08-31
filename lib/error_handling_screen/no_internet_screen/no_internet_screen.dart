@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_template/routes/app_routes.dart';
-import 'package:flutter_riverpod_template/routes/app_routes_key.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/utils/gap.dart';
-import 'package:flutter_riverpod_template/widgets/app_image/app_image.dart';
-import 'package:flutter_riverpod_template/widgets/buttons/app_button.dart';
-import 'package:flutter_riverpod_template/widgets/texts/app_text.dart';
+import 'package:scoutasks/routes/app_routes.dart';
+import 'package:scoutasks/routes/app_routes_key.dart';
+import 'package:scoutasks/utils/app_size.dart';
+import 'package:scoutasks/utils/gap.dart';
+import 'package:scoutasks/widgets/app_image/app_image.dart';
+import 'package:scoutasks/widgets/buttons/app_button.dart';
+import 'package:scoutasks/widgets/texts/app_text.dart';
+
 
 class NoInternetScreen extends StatelessWidget {
   const NoInternetScreen({super.key});
@@ -13,33 +14,54 @@ class NoInternetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: AppSize.width(value: 5),
-          children: [
-            AppImage(path: "assets/images/no_internet.webp", width: AppSize.size.width * 0.4),
-            Gap(height: 5),
-            AppText(text: "Ooops!", fontSize: AppSize.width(value: 25), fontWeight: FontWeight.bold),
-
-            Gap(height: 5),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSize.size.width * 0.2),
-              child: AppText(text: "No Internet Connection found Check your connection", textAlign: TextAlign.center, height: 1.5),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(bottom: AppSize.width(value: 40)),
-          child: AppButton(
-            onTap: () {
-              AppRoutes.instance.go(AppRoutesKey.instance.initial);
-            },
-            height: AppSize.width(value: 50),
-            margin: EdgeInsets.symmetric(horizontal: AppSize.width(value: 20)),
-            title: "Try Again",
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppImage(
+                      path: "assets/images/InternetError.png",
+                      width: AppSize.size.width * 0.8,
+                      fit: BoxFit.contain,
+                    ),
+                    Gap(height: AppSize.width(value: 30)),
+                    AppText(
+                      text: "No Internet Connection",
+                      fontSize: AppSize.width(value: 22),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    Gap(height: AppSize.width(value: 10)),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.width(value: 40)),
+                      child: AppText(
+                        text: "No Internet connection found, Please check\nyour connection or try again.",
+                        textAlign: TextAlign.center,
+                        height: 1.5,
+                        fontSize: AppSize.width(value: 14),
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.width(value: 20),
+                  vertical: AppSize.width(value: 20),
+                ),
+                child: AppButton(
+                  onTap: () {
+                    AppRoutes.instance.go(AppRoutesKey.instance.initial);
+                  },
+                  height: AppSize.width(value: 50),
+                  title: "Retry",
+                ),
+              ),
+            ],
           ),
         ),
       ),

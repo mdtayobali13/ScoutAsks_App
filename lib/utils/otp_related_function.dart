@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod_template/utils/app_log.dart';
+import 'package:scoutasks/utils/app_log.dart';
 
 class OtpRelatedFunction {
   OtpRelatedFunction._privateConstructor();

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
+import 'package:scoutasks/utils/app_log.dart';
+
 
 final signInProvider = StateNotifierProvider<_SignInProvider, bool>((ref) {
   return _SignInProvider(ref);

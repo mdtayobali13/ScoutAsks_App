@@ -1,7 +1,8 @@
-import 'package:flutter_riverpod_template/constant/app_api_url.dart';
-import 'package:flutter_riverpod_template/screens/base_screen/faq_screen/models/f_a_q_screen_data_model.dart';
-import 'package:flutter_riverpod_template/services/api/api_services.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
+
+import 'package:scoutasks/constant/app_api_url.dart';
+import 'package:scoutasks/screens/base_screen/faq_screen/models/f_a_q_screen_data_model.dart';
+import 'package:scoutasks/services/api/api_services.dart';
+import 'package:scoutasks/utils/app_log.dart';
 
 class BaseRepository {
   /////////////// constructor

@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/main_app_entry.dart';
+import 'package:scoutasks/constant/app_colors.dart';
+import 'package:scoutasks/main_app_entry.dart';
 
 Future<void> main() async {
   //////////////  flutter binding initialize

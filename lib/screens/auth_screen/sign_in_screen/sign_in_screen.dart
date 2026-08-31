@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod_template/constant/app_asserts_image_path.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/routes/app_routes.dart';
-import 'package:flutter_riverpod_template/routes/app_routes_key.dart';
-import 'package:flutter_riverpod_template/screens/auth_screen/sign_in_screen/provider/sign_in_provider.dart';
-import 'package:flutter_riverpod_template/services/storage/storage_services.dart';
-import 'package:flutter_riverpod_template/utils/app_log.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/utils/app_snack_bar.dart';
-import 'package:flutter_riverpod_template/utils/gap.dart';
-import 'package:flutter_riverpod_template/widgets/app_image/app_image.dart';
-import 'package:flutter_riverpod_template/widgets/buttons/app_button.dart';
-import 'package:flutter_riverpod_template/widgets/inputs/app_input_widget_tow.dart';
-import 'package:flutter_riverpod_template/widgets/texts/app_text.dart';
+import 'package:scoutasks/constant/app_asserts_image_path.dart';
+import 'package:scoutasks/routes/app_routes.dart';
+import 'package:scoutasks/routes/app_routes_key.dart';
+import 'package:scoutasks/screens/auth_screen/sign_in_screen/provider/sign_in_provider.dart';
+import 'package:scoutasks/utils/app_log.dart';
+import 'package:scoutasks/utils/app_size.dart';
+import 'package:scoutasks/utils/app_snack_bar.dart';
+import 'package:scoutasks/utils/gap.dart';
+import 'package:scoutasks/widgets/inputs/app_input_widget_tow.dart';
+import 'package:scoutasks/widgets/texts/app_text.dart';
+import '../widgets/social_login_button.dart';
+import '../widgets/remember_me_checkbox.dart';
+import '../widgets/auth_redirection_text.dart';
+import '../widgets/auth_logo_widget.dart';
+import '../widgets/auth_submit_button.dart';
+import '../widgets/forgot_password_button.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
@@ -26,29 +28,21 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   late TextEditingController emailTextEditingController;
   late TextEditingController passwordTextEditingController;
   late GlobalKey<FormState> formKey;
+  bool isRememberMe = false;
 
   Future<void> checkLoginFunction() async {
     try {
-      if (!formKey.currentState!.validate()) {
-        return;
-      }
-      final response = await ref
+      // if (!formKey.currentState!.validate()) {
+      //   return;
+      // }
+
+      // Call provider but don't strictly require response since backend is commented out
+      await ref
           .read(signInProvider.notifier)
           .signIn(emailTextEditingController.text.trim(), passwordTextEditingController.text.trim());
-      if (response) {
-        AppRoutes.instance.go(AppRoutesKey.instance.homeScreen);
-      } else {
-        AppSnackBar.instance.error("Invalid email and password");
-      }
-    } catch (e) {
-      errorLog("checkLoginFunction", e);
-    }
-  }
 
-  Future<void> continueAsGuest() async {
-    try {
-      await StorageServices.instance.setAppRoll("GUEST");
-      AppRoutes.instance.pushNamed(AppRoutesKey.instance.homeScreen);
+      // Navigate to choose role screen
+      AppRoutes.instance.pushNamed(AppRoutesKey.instance.chooseRoleScreen);
     } catch (e) {
       errorLog("checkLoginFunction", e);
     }
@@ -73,115 +67,111 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            width: AppSize.size.width,
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: AppSize.size.width * 0.8,
-                    height: AppSize.size.height * 0.14,
-                    child: Center(
-                      child: AppImage(width: AppSize.size.width * 0.8, path: AppAssertsImagePath.instance.logo),
+        child: Column(
+          children: [
+            const AuthLogoWidget(),
+            Expanded(
+              flex: 6,
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFEFF2F6),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                ),
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSize.width(value: 20),
+                    vertical: AppSize.width(value: 30),
+                  ),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        AppInputWidgetTwo(
+                          padding: EdgeInsets.zero,
+                          title: "E-mail",
+                          hintText: "Enter email address",
+                          prefix: const Icon(Icons.mail_outline, color: Colors.grey, size: 20),
+                          suffixIcon: const Icon(Icons.fingerprint, color: Colors.grey, size: 20),
+                          fillColor: const Color(0xFFE5E7EB),
+                          borderColor: Colors.grey.shade400,
+                          isEmail: true,
+                          keyboardType: TextInputType.emailAddress,
+                          controller: emailTextEditingController,
+                          textInputAction: TextInputAction.next,
+                        ),
+                        const Gap(height: 15),
+                        AppInputWidgetTwo(
+                          padding: EdgeInsets.zero,
+                          title: "Password",
+                          hintText: "123456",
+                          prefix: const Icon(Icons.lock_outline, color: Colors.grey, size: 20),
+                          fillColor: const Color(0xFFE5E7EB),
+                          borderColor: Colors.grey.shade400,
+                          isPassWord: true,
+                          maxLines: 1,
+                          keyboardType: TextInputType.text,
+                          controller: passwordTextEditingController,
+                          textInputAction: TextInputAction.done,
+                        ),
+                        const Gap(height: 10),
+                        RememberMeCheckbox(
+                          value: isRememberMe,
+                          onChanged: (value) {
+                            setState(() {
+                              isRememberMe = value ?? false;
+                            });
+                          },
+                        ),
+                        const Gap(height: 20),
+                        AuthSubmitButton(title: "Sign in", onTap: checkLoginFunction, provider: signInProvider),
+                        const Gap(height: 20),
+                        const ForgotPasswordButton(),
+                        const Gap(height: 15),
+                        AuthRedirectionText(
+                          text: "Don't have an account? ",
+                          actionText: "Sign up",
+                          onTap: () {
+                            AppRoutes.instance.pushNamed(AppRoutesKey.instance.chooseRoleScreen);
+                          },
+                        ),
+                        const Gap(height: 20),
+                        const Center(
+                          child: AppText(text: "Or", color: Colors.black87),
+                        ),
+                        const Gap(height: 20),
+                        SocialLoginButton(
+                          title: "Continue with Google",
+                          icon: Image.asset(
+                            AppAssertsImagePath.instance.googleIcon,
+                            height: 20,
+                            width: 20,
+                            errorBuilder: (_, __, ___) => const Icon(Icons.g_mobiledata, color: Colors.red),
+                          ),
+                          onTap: () {},
+                        ),
+                        const Gap(height: 15),
+                        SocialLoginButton(
+                          title: "Continue with Apple",
+                          icon: Image.asset(
+                            AppAssertsImagePath.instance.appleIcon,
+                            height: 24,
+                            width: 24,
+                            errorBuilder: (_, __, ___) => const Icon(Icons.apple, color: Colors.black, size: 24),
+                          ),
+                          onTap: () {},
+                        ),
+                        const Gap(height: 20),
+                      ],
                     ),
                   ),
-
-                  SizedBox(
-                    width: AppSize.size.width * 0.8,
-                    child: AppText(
-                      text: "Welcome back! Please login to your account.",
-                      textAlign: TextAlign.center,
-
-                      fontWeight: FontWeight.w500,
-                      height: 1.5,
-                      fontSize: AppSize.width(value: 18),
-                    ),
-                  ),
-                  AppInputWidgetTwo(
-                    validator: (String? value) {
-                      if (value?.isEmpty == true) {
-                        return "Enter your email";
-                      }
-                      return null;
-                    },
-                    title: "Email",
-                    isEmail: true,
-                    keyboardType: TextInputType.emailAddress,
-                    controller: emailTextEditingController,
-                    textInputAction: TextInputAction.next,
-                  ),
-                  AppInputWidgetTwo(
-                    validator: (String? value) {
-                      if (value?.isEmpty == true) {
-                        return "Enter your password";
-                      }
-                      if (value!.length < 6) {
-                        return "Al least 6 character";
-                      }
-                      return null;
-                    },
-                    title: "Password",
-                    isPassWord: true,
-                    maxLines: 1,
-                    keyboardType: TextInputType.text,
-                    controller: passwordTextEditingController,
-                    textInputAction: TextInputAction.done,
-                  ),
-                  Gap(height: 30),
-                  Consumer(
-                    builder: (context, ref, child) {
-                      var provider = ref.watch(signInProvider);
-                      return AppButton(
-                        isLoading: provider,
-                        onTap: checkLoginFunction,
-                        title: "Login",
-                        backgroundColor: AppColors.instance.success,
-                        borderColor: AppColors.instance.success,
-                        padding: EdgeInsets.symmetric(vertical: AppSize.width(value: 10)),
-                        margin: EdgeInsets.symmetric(horizontal: AppSize.width(value: 20)),
-                      );
-                    },
-                  ),
-                  Gap(height: 30),
-                  AppButton(
-                    onTap: continueAsGuest,
-                    title: "Browse as Guest",
-                    backgroundColor: AppColors.instance.white50,
-                    borderColor: AppColors.instance.dark500,
-                    titleColor: AppColors.instance.dark500,
-                    padding: EdgeInsets.symmetric(vertical: AppSize.width(value: 10)),
-                    margin: EdgeInsets.symmetric(horizontal: AppSize.width(value: 20)),
-                  ),
-                  Gap(height: 30),
-                  InkWell(
-                    onTap: () {
-                      AppRoutes.instance.pushNamed(AppRoutesKey.instance.forgotScreen);
-                    },
-                    overlayColor: WidgetStatePropertyAll(Colors.transparent),
-                    child: AppText(text: "Forgot password?", fontWeight: FontWeight.w600, color: AppColors.instance.error),
-                  ),
-                  Gap(height: 10),
-                  Wrap(
-                    children: [
-                      AppText(text: "Don't have an account?"),
-                      Gap(width: 10),
-                      InkWell(
-                        onTap: () {
-                          AppRoutes.instance.pushNamed(AppRoutesKey.instance.signUpScreen);
-                        },
-                        overlayColor: WidgetStatePropertyAll(Colors.transparent),
-                        child: AppText(text: "Sign up", fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

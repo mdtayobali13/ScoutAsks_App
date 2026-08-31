@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod_template/constant/app_colors.dart';
-import 'package:flutter_riverpod_template/utils/app_size.dart';
-import 'package:flutter_riverpod_template/widgets/texts/app_text.dart' show AppText;
+import 'package:scoutasks/constant/app_colors.dart';
+import 'package:scoutasks/utils/app_size.dart';
+import 'package:scoutasks/widgets/texts/app_text.dart' show AppText;
 
 class AppButton extends StatelessWidget {
   const AppButton({

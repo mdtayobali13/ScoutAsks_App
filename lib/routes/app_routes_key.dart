@@ -22,6 +22,7 @@ class AppRoutesKey {
   ////////////// auth
   final String signInScreen = "signInScreen";
   final String signUpScreen = "signUPScreen";
+  final String chooseRoleScreen = "chooseRoleScreen";
   final String forgotScreen = "forgotScreen";
   final String signUpVerifyScreen = "signUpVerifyScreen";
   final String createNewPasswordScreen = "createNewPasswordScreen";
