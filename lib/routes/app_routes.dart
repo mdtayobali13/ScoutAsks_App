@@ -13,12 +13,19 @@ import 'package:scoutasks/screens/auth_screen/on_board_screen/on_board_screen.da
 import 'package:scoutasks/screens/auth_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:scoutasks/screens/auth_screen/choose_role_screen/choose_role_screen.dart';
 import 'package:scoutasks/screens/auth_screen/sign_up_screen/sign_up_screen.dart';
+import 'package:scoutasks/screens/auth_screen/technician_sign_up_screen/technician_sign_up_screen.dart';
 import 'package:scoutasks/screens/auth_screen/sign_up_verify_screen/sign_up_verify_screen.dart';
+import 'package:scoutasks/screens/auth_screen/verification_in_progress_screen/verification_in_progress_screen.dart';
 import 'package:scoutasks/screens/base_screen/about_us_screen/about_us_screen.dart';
 import 'package:scoutasks/screens/base_screen/faq_screen/faq_screen.dart';
 import 'package:scoutasks/screens/base_screen/privacy_policy_screen/privacy_policy_screen.dart';
 import 'package:scoutasks/screens/base_screen/terms_and_conditions_screen/terms_and_conditions_screen.dart';
 import 'package:scoutasks/screens/home_screen/home_screen.dart';
+import 'package:scoutasks/screens/all_services_screen/all_services_screen.dart';
+import 'package:scoutasks/screens/job_screen/job_screen.dart';
+import 'package:scoutasks/screens/artisan_list_screen/artisan_list_screen.dart';
+import 'package:scoutasks/screens/artisan_profile_screen/artisan_profile_screen.dart';
+import 'package:scoutasks/screens/chat_screen/chat_screen.dart';
 import 'package:scoutasks/screens/profile_screen/profile_screen.dart';
 import 'package:scoutasks/screens/splash_screen/splash_screen.dart';
 import 'package:scoutasks/utils/app_log.dart';
@@ -67,15 +74,25 @@ class AppRoutes {
       ////// auth routes
       GoRoute(path: "/${AppRoutesKey.instance.signInScreen}", name: AppRoutesKey.instance.signInScreen, builder: (context, state) => SignInScreen()),
       GoRoute(path: "/${AppRoutesKey.instance.signUpScreen}", name: AppRoutesKey.instance.signUpScreen, builder: (context, state) => SignUpScreen()),
+      GoRoute(path: "/${AppRoutesKey.instance.technicianSignUpScreen}", name: AppRoutesKey.instance.technicianSignUpScreen, builder: (context, state) => TechnicianSignUpScreen()),
       GoRoute(
         path: "/${AppRoutesKey.instance.chooseRoleScreen}",
         name: AppRoutesKey.instance.chooseRoleScreen,
-        builder: (context, state) => ChooseRoleScreen(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final isFromSignIn = extra?['isFromSignIn'] as bool? ?? false;
+          return ChooseRoleScreen(isFromSignIn: isFromSignIn);
+        },
       ),
       GoRoute(
         path: "/${AppRoutesKey.instance.signUpVerifyScreen}",
         name: AppRoutesKey.instance.signUpVerifyScreen,
         builder: (context, state) => SignUpVerifyScreen(),
+      ),
+      GoRoute(
+        path: "/${AppRoutesKey.instance.verificationInProgressScreen}",
+        name: AppRoutesKey.instance.verificationInProgressScreen,
+        builder: (context, state) => const VerificationInProgressScreen(),
       ),
       GoRoute(
         path: "/${AppRoutesKey.instance.onBoardScreen}",
@@ -85,6 +102,24 @@ class AppRoutes {
 
       GoRoute(path: "/${AppRoutesKey.instance.forgotScreen}", name: AppRoutesKey.instance.forgotScreen, builder: (context, state) => ForgotScreen()),
 
+      GoRoute(
+        path: "/${AppRoutesKey.instance.allServicesScreen}",
+        name: AppRoutesKey.instance.allServicesScreen,
+        builder: (context, state) => const AllServicesScreen(),
+      ),
+
+      GoRoute(
+        path: "/${AppRoutesKey.instance.artisanListScreen}",
+        name: AppRoutesKey.instance.artisanListScreen,
+        builder: (context, state) => const ArtisanListScreen(),
+      ),
+
+      GoRoute(
+        path: "/${AppRoutesKey.instance.artisanProfileScreen}",
+        name: AppRoutesKey.instance.artisanProfileScreen,
+        builder: (context, state) => const ArtisanProfileScreen(),
+      ),
+      
       /////// main route screen
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -97,6 +132,24 @@ class AppRoutes {
                 path: "/${AppRoutesKey.instance.homeScreen}",
                 name: AppRoutesKey.instance.homeScreen,
                 builder: (context, state) => HomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: "/${AppRoutesKey.instance.jobScreen}",
+                name: AppRoutesKey.instance.jobScreen,
+                builder: (context, state) => JobScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: "/${AppRoutesKey.instance.chatScreen}",
+                name: AppRoutesKey.instance.chatScreen,
+                builder: (context, state) => ChatScreen(),
               ),
             ],
           ),

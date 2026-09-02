@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scoutasks/constant/app_asserts_image_path.dart';
-import 'package:scoutasks/constant/app_colors.dart';
-import 'package:scoutasks/constant/app_constant.dart';
 import 'package:scoutasks/utils/app_size.dart';
 import 'package:scoutasks/utils/gap.dart';
 import 'package:scoutasks/widgets/app_image/app_image.dart';
-import 'package:scoutasks/widgets/buttons/app_button.dart';
 import 'package:scoutasks/widgets/inputs/app_input_widget_tow.dart';
-import 'package:scoutasks/widgets/texts/app_text.dart';
 import 'package:scoutasks/screens/auth_screen/forgot_screen/screens/provider/forgot_reset_password_provider.dart';
-
+import '../../widgets/auth_header_widget.dart';
+import '../../widgets/auth_submit_button.dart';
 class ForgotScreenPasswordInputScreen extends ConsumerWidget {
   const ForgotScreenPasswordInputScreen({
     super.key,
@@ -25,45 +22,59 @@ class ForgotScreenPasswordInputScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(forgotResetPasswordProvider);
-
     return SizedBox(
       width: AppSize.size.width,
       child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: AppSize.width(value: 20)),
         child: Form(
           key: formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                width: AppSize.size.width * 0.8,
-                height: AppSize.size.height * 0.14,
-                child: Center(
-                  child: AppImage(width: AppSize.size.width * 0.8, path: AppAssertsImagePath.instance.logo),
+              Gap(height: AppSize.width(value: 60)),
+              // Logo
+              Center(
+                child: AppImage(
+                  path: AppAssertsImagePath.instance.scoutasksLogo,
+                  width: 150,
+                  fit: BoxFit.contain,
                 ),
               ),
+              Gap(height: AppSize.width(value: 40)),
+              
+              // Header
+              const AuthHeaderWidget(
+                title: "Create new password",
+                subtitle: "Keep your account safe with a unique numeric\npassword",
+              ),
+              Gap(height: AppSize.width(value: 40)),
 
-              SizedBox(
-                width: AppSize.size.width * 0.8,
-                child: AppText(
-                  text: "New password",
-                  textAlign: TextAlign.center,
-                  fontFamily: AppConstant.instance.fontFamilyPoppins,
-                  fontWeight: FontWeight.w600,
-                  height: 1.5,
-                  fontSize: AppSize.width(value: 18),
-                ),
-              ),
+              // Password Field
               AppInputWidgetTwo(
                 title: "Password",
+                titleFontSize: 15,
+                titleColor: const Color(0xFF262626),
+                hintText: "1234",
+                padding: EdgeInsets.zero,
+                fillColor: Colors.white,
+                borderColor: Colors.grey.shade400,
                 isPassWord: true,
                 maxLines: 1,
                 keyboardType: TextInputType.visiblePassword,
                 controller: passwordTextEditingController,
                 textInputAction: TextInputAction.next,
               ),
+              Gap(height: AppSize.width(value: 20)),
 
+              // Confirm Password Field
               AppInputWidgetTwo(
                 title: "Confirm Password",
+                titleFontSize: 15,
+                titleColor: const Color(0xFF262626),
+                hintText: "1234",
+                padding: EdgeInsets.zero,
+                fillColor: Colors.white,
+                borderColor: Colors.grey.shade400,
                 isPassWord: true,
                 isPassWordSecondValidation: true,
                 isPassWordSecondValidationController: passwordTextEditingController,
@@ -73,8 +84,11 @@ class ForgotScreenPasswordInputScreen extends ConsumerWidget {
                 textInputAction: TextInputAction.next,
               ),
 
-              Gap(height: 25),
-              AppButton(
+              Gap(height: AppSize.width(value: 30)),
+
+              // Update Password Button
+              AuthSubmitButton(
+                title: "Update Password",
                 onTap: () {
                   ref
                       .read(forgotResetPasswordProvider.notifier)
@@ -84,13 +98,9 @@ class ForgotScreenPasswordInputScreen extends ConsumerWidget {
                         confirmPasswordController: confirmPasswordTextEditingController,
                       );
                 },
-                isLoading: isLoading,
-                backgroundColor: AppColors.instance.success,
-                borderColor: AppColors.instance.success,
-                title: "Save & Update",
-                margin: EdgeInsetsDirectional.symmetric(horizontal: AppSize.width(value: 20)),
-                padding: EdgeInsets.all(AppSize.width(value: 8)),
+                provider: forgotResetPasswordProvider,
               ),
+              Gap(height: AppSize.width(value: 40)),
             ],
           ),
         ),

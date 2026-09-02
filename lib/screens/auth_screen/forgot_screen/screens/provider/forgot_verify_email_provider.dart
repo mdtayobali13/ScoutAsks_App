@@ -17,25 +17,19 @@ class ForgotVerifyEmailProvider extends StateNotifier<bool> {
     required void Function(int index) onChange,
   }) async {
     try {
-      if (formKey.currentState!.validate()) {
-        state = true;
-
-        String email = "";
-        // String email = await StorageServices.instance.getEmail();
-        String otp = otpController.text.trim().replaceAll(RegExp(r'\D'), '');
-
-        String token = await AuthRepository.instance.forgotVerifyEmail(email: email, otp: int.parse(otp));
-
-        state = false;
-
-        if (token.isNotEmpty) {
-          // await StorageServices.instance.setResetToken(token);
-          AppSnackBar.instance.success("OTP Verification successful");
+      // if (formKey.currentState!.validate()) {
+      //   state = true;
+      //   String email = "";
+      //   String otp = otpController.text.trim().replaceAll(RegExp(r'\D'), '');
+      //   String token = await AuthRepository.instance.forgotVerifyEmail(email: email, otp: int.parse(otp));
+      //   state = false;
+      //   if (token.isNotEmpty) {
+      //     AppSnackBar.instance.success("OTP Verification successful");
           onChange(2);
-        } else {
-          AppSnackBar.instance.error("Verification failed or OTP is incorrect.");
-        }
-      }
+      //   } else {
+      //     AppSnackBar.instance.error("Verification failed or OTP is incorrect.");
+      //   }
+      // }
     } catch (e) {
       errorLog("verifyEmail provider", e);
       state = false;

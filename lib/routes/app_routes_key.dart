@@ -22,13 +22,20 @@ class AppRoutesKey {
   ////////////// auth
   final String signInScreen = "signInScreen";
   final String signUpScreen = "signUPScreen";
+  final String technicianSignUpScreen = "technicianSignUpScreen";
   final String chooseRoleScreen = "chooseRoleScreen";
   final String forgotScreen = "forgotScreen";
   final String signUpVerifyScreen = "signUpVerifyScreen";
+  final String verificationInProgressScreen = "verificationInProgressScreen";
   final String createNewPasswordScreen = "createNewPasswordScreen";
   final String changePasswordScreen = "changePasswordScreen";
 
   /////////////// app navigation
   final String homeScreen = "homeScreen";
+  final String jobScreen = "jobScreen";
+  final String chatScreen = "chatScreen";
+  final String allServicesScreen = "allServicesScreen";
+  final String artisanListScreen = "artisanListScreen";
+  final String artisanProfileScreen = "artisanProfileScreen";
   final String profileScreen = "profileScreen";
 }

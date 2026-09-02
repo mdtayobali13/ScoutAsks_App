@@ -6,7 +6,6 @@ import 'package:scoutasks/routes/app_routes_key.dart';
 import 'package:scoutasks/screens/auth_screen/sign_in_screen/provider/sign_in_provider.dart';
 import 'package:scoutasks/utils/app_log.dart';
 import 'package:scoutasks/utils/app_size.dart';
-import 'package:scoutasks/utils/app_snack_bar.dart';
 import 'package:scoutasks/utils/gap.dart';
 import 'package:scoutasks/widgets/inputs/app_input_widget_tow.dart';
 import 'package:scoutasks/widgets/texts/app_text.dart';
@@ -42,7 +41,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           .signIn(emailTextEditingController.text.trim(), passwordTextEditingController.text.trim());
 
       // Navigate to choose role screen
-      AppRoutes.instance.pushNamed(AppRoutesKey.instance.chooseRoleScreen);
+      AppRoutes.instance.pushNamed(AppRoutesKey.instance.chooseRoleScreen, extra: {"isFromSignIn": true});
     } catch (e) {
       errorLog("checkLoginFunction", e);
     }
@@ -135,7 +134,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           text: "Don't have an account? ",
                           actionText: "Sign up",
                           onTap: () {
-                            AppRoutes.instance.pushNamed(AppRoutesKey.instance.chooseRoleScreen);
+                            AppRoutes.instance.pushNamed(AppRoutesKey.instance.chooseRoleScreen, extra: {"isFromSignIn": false});
                           },
                         ),
                         const Gap(height: 20),

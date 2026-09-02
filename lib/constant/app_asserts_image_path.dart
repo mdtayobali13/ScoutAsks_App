@@ -10,4 +10,10 @@ class AppAssertsImagePath {
   final String appleIcon = "assets/icons/apple.png";
   final String customerImage = "assets/images/Customer.png";
   final String technicianImage = "assets/images/Technician.png";
+  
+  final String navHome = "assets/icons/Home.png";
+  final String navJob = "assets/icons/Jobsearch.png";
+  final String navChat = "assets/icons/chat.png";
+  final String navProfile = "assets/icons/user.png";
+  final String massageIcon = "assets/icons/massage.png";
 }

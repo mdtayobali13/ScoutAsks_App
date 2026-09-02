@@ -7,12 +7,15 @@ import 'package:scoutasks/utils/app_size.dart';
 import 'package:scoutasks/utils/gap.dart';
 import 'package:scoutasks/widgets/buttons/app_button.dart';
 import 'package:scoutasks/widgets/texts/app_text.dart';
+import '../widgets/auth_back_button_widget.dart';
 import 'widgets/role_card_widget.dart';
 
 class ChooseRoleScreen extends ConsumerStatefulWidget {
-  const ChooseRoleScreen({super.key});
+  final bool isFromSignIn;
+  const ChooseRoleScreen({super.key, this.isFromSignIn = false});
 
   @override
+
   ConsumerState<ChooseRoleScreen> createState() => _ChooseRoleScreenState();
 }
 
@@ -34,19 +37,7 @@ class _ChooseRoleScreenState extends ConsumerState<ChooseRoleScreen> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  InkWell(
-                    onTap: () => AppRoutes.instance.pop(),
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade400,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
-                    ),
-                  ),
+                  const AuthBackButtonWidget(),
                   const Gap(width: 15),
                   Expanded(
                     child: AppText(
@@ -108,7 +99,19 @@ class _ChooseRoleScreenState extends ConsumerState<ChooseRoleScreen> {
               // Next Button
               AppButton(
                 onTap: () {
-                  AppRoutes.instance.pushNamed(AppRoutesKey.instance.signUpScreen);
+                  if (widget.isFromSignIn) {
+                    if (selectedRole == 'customer') {
+                      AppRoutes.instance.goNamed(AppRoutesKey.instance.homeScreen);
+                    } else {
+                      AppRoutes.instance.goNamed(AppRoutesKey.instance.homeScreen);
+                    }
+                  } else {
+                    if (selectedRole == 'technician') {
+                      AppRoutes.instance.pushNamed(AppRoutesKey.instance.technicianSignUpScreen);
+                    } else {
+                      AppRoutes.instance.pushNamed(AppRoutesKey.instance.signUpScreen);
+                    }
+                  }
                 },
                 title: "Next",
                 backgroundColor: const Color(0xFF143B66),

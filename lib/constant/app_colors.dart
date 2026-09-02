@@ -12,6 +12,12 @@ class AppColors {
   final Color blue = Color(0xFF0051FF);
   final Color transparent = Colors.transparent;
 
+  //////////////// brand colors
+  final Color primaryBrandBlue = const Color(0xFF143B66);
+  final Color primaryBrandOrange = const Color(0xFFF4A261);
+  final Color surfaceLight = const Color(0xFFEFF2F6);
+  final Color chatBubbleGrey = const Color(0xFFE5E5EA);
+
   ////////////////  app gray color
   final Color gray50 = Color(0xff8E98A8);
   final Color gray100 = Color(0xff8E98A8);
@@ -118,4 +124,9 @@ class AppColors {
   final Color orange700 = Color(0xffb05943);
   final Color orange800 = Color(0xff884534);
   final Color orange900 = Color(0xff683527);
+
+  ////////////////  job status color
+  final Color jobStatusOffers = const Color(0xFFE63946);
+  final Color jobStatusComplete = const Color(0xFF52B788);
+  final Color jobStatusInProgress = const Color(0xFFF4A261);
 }

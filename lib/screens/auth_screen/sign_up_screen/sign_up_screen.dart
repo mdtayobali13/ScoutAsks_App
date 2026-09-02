@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:scoutasks/constant/app_asserts_image_path.dart';
-import 'package:scoutasks/constant/app_colors.dart';
 import 'package:scoutasks/routes/app_routes.dart';
 import 'package:scoutasks/screens/auth_screen/sign_up_screen/provider/sign_up_provider.dart';
 import 'package:scoutasks/utils/app_log.dart';
 import 'package:scoutasks/utils/app_size.dart';
 import 'package:scoutasks/utils/gap.dart';
-import 'package:scoutasks/widgets/app_image/app_image.dart';
-import 'package:scoutasks/widgets/buttons/app_button.dart';
-import 'package:scoutasks/widgets/image_userPick/image_user_pick.dart';
 import 'package:scoutasks/widgets/inputs/app_input_widget_tow.dart';
-import 'package:scoutasks/widgets/texts/app_text.dart';
 import '../../../routes/app_routes_key.dart';
-import '../../../widgets/inputs/app_input_widget.dart';
+import '../widgets/auth_header_widget.dart';
+import '../widgets/auth_submit_button.dart';
+import '../widgets/auth_redirection_text.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -110,27 +106,15 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             child: Form(
               key: formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Gap(height: AppSize.width(value: 60)),
-                  // Title
-                  AppText(
-                    text: "Your daily helper",
-                    fontSize: 30,
-                    fontWeight: FontWeight.w800,
-                    color: const Color(0xFF262626),
-                  ),
-                  Gap(height: 12),
-                  // Subtitle
-                  AppText(
-                    text: "Daily house work management\nmade simple",
-                    textAlign: TextAlign.center,
-                    fontSize: 16,
-                    color: Colors.grey.shade600,
-                    height: 1.5,
+                  const AuthHeaderWidget(
+                    title: "Your daily helper",
+                    subtitle: "Daily house work management\nmade simple",
                   ),
                   Gap(height: AppSize.width(value: 30)),
-                  
+
                   // E-mail Field
                   AppInputWidgetTwo(
                     title: "E-mail",
@@ -143,22 +127,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     prefix: Icon(Icons.mail_outline, color: Colors.grey.shade600, size: 20),
                     fillColor: Colors.white,
                     borderColor: Colors.grey.shade400,
-                    // validator: (String? value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     return "Enter your email";
-                    //   }
-                    //   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                    //   if (!emailRegex.hasMatch(value)) {
-                    //     return "Enter a valid email address";
-                    //   }
-                    //   return null;
-                    // },
                     onChanged: (v) {
                       ref.read(signUpProvider.notifier).stateUpdate(email: v);
                     },
                   ),
                   Gap(height: AppSize.width(value: 15)),
-                  
+
                   // Full name Field
                   AppInputWidgetTwo(
                     title: "Full name",
@@ -169,18 +143,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     controller: nameTextEditingController,
                     fillColor: Colors.white,
                     borderColor: Colors.grey.shade400,
-                    // validator: (String? value) {
-                    //   if (value?.isEmpty ?? true) {
-                    //     return "Enter your full name";
-                    //   }
-                    //   return null;
-                    // },
                     onChanged: (v) {
                       ref.read(signUpProvider.notifier).stateUpdate(name: v);
                     },
                   ),
                   Gap(height: AppSize.width(value: 15)),
-                  
+
                   // Password Field
                   AppInputWidgetTwo(
                     title: "Password",
@@ -193,21 +161,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     prefix: Icon(Icons.lock_outline, color: Colors.grey.shade600, size: 20),
                     fillColor: Colors.white,
                     borderColor: Colors.grey.shade400,
-                    // validator: (String? value) {
-                    //   if (value?.isEmpty ?? true) {
-                    //     return "Enter your password";
-                    //   }
-                    //   if (value!.length < 6) {
-                    //     return "Password must be at least 6 characters";
-                    //   }
-                    //   return null;
-                    // },
                     onChanged: (v) {
                       ref.read(signUpProvider.notifier).stateUpdate(password: v);
                     },
                   ),
                   Gap(height: AppSize.width(value: 15)),
-                  
+
                   // Confirm password Field
                   AppInputWidgetTwo(
                     title: "Confirm password",
@@ -220,60 +179,27 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     prefix: Icon(Icons.lock_outline, color: Colors.grey.shade600, size: 20),
                     fillColor: Colors.white,
                     borderColor: Colors.grey.shade400,
-                    // validator: (String? value) {
-                    //   if (value?.isEmpty ?? true) {
-                    //     return "Enter your password again";
-                    //   }
-                    //   if (value != passwordTextEditingController.text) {
-                    //     return "Password not matching";
-                    //   }
-                    //   return null;
-                    // },
                   ),
                   Gap(height: AppSize.width(value: 30)),
-                  
+
                   // Create an account Button
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final isLoading = ref.watch(signUpProvider.select((p) => p.isLoading));
-                      return AppButton(
-                        onTap: () async {
-                          if (formKey.currentState!.validate()) {
-                            await ref.read(signUpProvider.notifier).customerSignUp(formKey: formKey);
-                          }
-                        },
-                        isLoading: isLoading,
-                        backgroundColor: const Color(0xFF143B66),
-                        titleColor: Colors.white,
-                        title: "Create an account",
-                        padding: EdgeInsets.symmetric(vertical: AppSize.width(value: 15)),
-                        borderRadius: BorderRadius.circular(8),
-                      );
+                  AuthSubmitButton(
+                    title: "Create an account",
+                    onTap: () async {
+                      // if (formKey.currentState!.validate()) {
+                      //   await ref.read(signUpProvider.notifier).customerSignUp(formKey: formKey);
+                      // }
+                      AppRoutes.instance.pushNamed(AppRoutesKey.instance.signUpVerifyScreen);
                     },
+                    provider: signUpProvider.select((p) => p.isLoading),
                   ),
                   Gap(height: AppSize.width(value: 20)),
-                  
-                  // Sign in Redirection
-                  Center(
-                    child: Wrap(
-                      children: [
-                        AppText(
-                          text: "Already have an account? ",
-                          color: Colors.grey.shade600,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            AppRoutes.instance.go(AppRoutesKey.instance.signInScreen);
-                          },
-                          overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-                          child: AppText(
-                            text: "Sign in",
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ],
-                    ),
+                  AuthRedirectionText(
+                    text: "Already have an account? ",
+                    actionText: "Sign in",
+                    onTap: () {
+                      AppRoutes.instance.go(AppRoutesKey.instance.signInScreen);
+                    },
                   ),
                   Gap(height: AppSize.width(value: 40)),
                 ],

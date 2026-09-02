@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:scoutasks/constant/app_colors.dart';
 import 'package:scoutasks/routes/app_routes.dart';
 import 'package:scoutasks/routes/app_routes_key.dart';
 import 'package:scoutasks/utils/app_size.dart';

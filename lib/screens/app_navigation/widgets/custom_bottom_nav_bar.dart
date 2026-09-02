@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scoutasks/constant/app_colors.dart';
+import 'package:scoutasks/constant/app_asserts_image_path.dart';
 import 'package:scoutasks/screens/app_navigation/widgets/nav_bar_item.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -14,23 +14,17 @@ class CustomBottomNavBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.instance.black600,
-        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.05), width: 1)),
+        color: const Color(0xFFEFF2F6),
+        border: Border(top: BorderSide(color: Colors.grey.shade300, width: 1)),
       ),
       child: SafeArea(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            NavBarItem(isSelected: currentIndex == 0, icon: CupertinoIcons.house, filledIcon: CupertinoIcons.house_fill, onTap: () => onTap(0)),
-            NavBarItem(isSelected: currentIndex == 1, icon: CupertinoIcons.heart, filledIcon: CupertinoIcons.heart_fill, onTap: () => onTap(1)),
-            NavBarItem(isSelected: currentIndex == 2, icon: CupertinoIcons.globe, filledIcon: CupertinoIcons.globe, onTap: () => onTap(2)),
-            NavBarItem(
-              isSelected: currentIndex == 3,
-              icon: CupertinoIcons.chat_bubble_2,
-              filledIcon: CupertinoIcons.chat_bubble_2_fill,
-              onTap: () => onTap(3),
-            ),
-            NavBarItem(isSelected: currentIndex == 4, icon: CupertinoIcons.person, filledIcon: CupertinoIcons.person_fill, onTap: () => onTap(4)),
+            NavBarItem(label: "Home", isSelected: currentIndex == 0, assetPath: AppAssertsImagePath.instance.navHome, onTap: () => onTap(0)),
+            NavBarItem(label: "Job", isSelected: currentIndex == 1, assetPath: AppAssertsImagePath.instance.navJob, onTap: () => onTap(1)),
+            NavBarItem(label: "Chat", isSelected: currentIndex == 2, assetPath: AppAssertsImagePath.instance.navChat, onTap: () => onTap(2)),
+            NavBarItem(label: "Profile", isSelected: currentIndex == 3, assetPath: AppAssertsImagePath.instance.navProfile, onTap: () => onTap(3)),
           ],
         ),
       ),

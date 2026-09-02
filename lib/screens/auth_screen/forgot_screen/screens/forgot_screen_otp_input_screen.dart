@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scoutasks/screens/auth_screen/forgot_screen/screens/provider/forgot_verify_email_provider.dart';
 import 'package:scoutasks/constant/app_asserts_image_path.dart';
-import 'package:scoutasks/constant/app_colors.dart';
-import 'package:scoutasks/constant/app_constant.dart';
 import 'package:scoutasks/utils/app_size.dart';
 import 'package:scoutasks/utils/gap.dart';
 import 'package:scoutasks/widgets/app_image/app_image.dart';
-import 'package:scoutasks/widgets/buttons/app_button.dart';
 import 'package:scoutasks/widgets/inputs/app_input_widget_tow.dart';
-import 'package:scoutasks/widgets/inputs/formatter/otp_number_formatter.dart';
 import 'package:scoutasks/widgets/texts/app_text.dart';
+import '../../widgets/auth_header_widget.dart';
+import '../../widgets/auth_submit_button.dart';
 
 class ForgotScreenOtpInputScreen extends ConsumerWidget {
   const ForgotScreenOtpInputScreen({super.key, required this.onChange, required this.formKey, required this.otpTextEditingController});
@@ -20,73 +18,84 @@ class ForgotScreenOtpInputScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(forgotVerifyEmailProvider);
-
     return SizedBox(
       width: AppSize.size.width,
       child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: AppSize.width(value: 20)),
         child: Form(
           key: formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                width: AppSize.size.width * 0.8,
-                height: AppSize.size.height * 0.14,
-                child: Center(
-                  child: AppImage(width: AppSize.size.width * 0.8, path: AppAssertsImagePath.instance.logo),
+              Gap(height: AppSize.width(value: 60)),
+              // Logo
+              Center(
+                child: AppImage(
+                  path: AppAssertsImagePath.instance.scoutasksLogo,
+                  width: 150,
+                  fit: BoxFit.contain,
                 ),
               ),
+              Gap(height: AppSize.width(value: 40)),
+              
+              // Header
+              const AuthHeaderWidget(
+                title: "Enter code",
+                subtitle: "We sent code to your E-mail",
+              ),
+              Gap(height: AppSize.width(value: 40)),
 
-              SizedBox(
-                width: AppSize.size.width * 0.8,
-                child: AppText(
-                  text: "Enter Verification Code",
-                  textAlign: TextAlign.center,
-                  fontFamily: AppConstant.instance.fontFamilyPoppins,
-                  fontWeight: FontWeight.w600,
-                  height: 1.5,
-                  fontSize: AppSize.width(value: 18),
-                ),
-              ),
+              // Code Field
               AppInputWidgetTwo(
-                title: "Code ",
-                keyboardType: TextInputType.numberWithOptions(),
+                title: "Code",
+                titleFontSize: 15,
+                titleColor: const Color(0xFF262626),
+                hintText: "123456",
+                padding: EdgeInsets.zero,
+                fillColor: Colors.white,
+                borderColor: Colors.grey.shade400,
                 controller: otpTextEditingController,
-                textInputAction: TextInputAction.next,
-                textAlign: TextAlign.center,
-                inputFormatters: [OtpNumberFormatter()],
+                validator: (String? value) {
+                  // if (value?.isEmpty ?? true) {
+                  //   return "Enter code";
+                  // }
+                  return null;
+                },
+                keyboardType: TextInputType.number,
               ),
-              Gap(height: 15),
+              Gap(height: 12),
+
+              // Resend Text
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  AppText(text: "If you didn't receive a code,"),
-                  Padding(
-                    padding: EdgeInsets.only(right: AppSize.width(value: 20)),
-                    child: InkWell(
-                      onTap: () {
-                        ref.read(forgotVerifyEmailProvider.notifier).resendOtp();
-                      },
-                      overlayColor: WidgetStatePropertyAll(Colors.transparent),
-                      child: AppText(text: " Resend", fontWeight: FontWeight.w700),
+                  AppText(text: "If you didn't receive a code, ", color: Colors.grey.shade600, fontSize: 13),
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(forgotVerifyEmailProvider.notifier).resendOtp();
+                    },
+                    child: AppText(
+                      text: "Resend",
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF262626),
                     ),
                   ),
                 ],
               ),
-              Gap(height: 25),
-              AppButton(
+              Gap(height: AppSize.width(value: 30)),
+
+              // Verify Button
+              AuthSubmitButton(
+                title: "Verify",
                 onTap: () {
                   ref
                       .read(forgotVerifyEmailProvider.notifier)
                       .verifyEmail(formKey: formKey, otpController: otpTextEditingController, onChange: onChange);
                 },
-                isLoading: isLoading,
-                backgroundColor: AppColors.instance.success,
-                borderColor: AppColors.instance.success,
-                title: "Verify",
-                margin: EdgeInsetsDirectional.symmetric(horizontal: AppSize.width(value: 20)),
-                padding: EdgeInsets.all(AppSize.width(value: 8)),
+                provider: forgotVerifyEmailProvider,
               ),
+              Gap(height: AppSize.width(value: 40)),
             ],
           ),
         ),
