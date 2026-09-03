@@ -12,6 +12,7 @@ import 'package:scoutasks/screens/auth_screen/forgot_screen/forgot_screen.dart';
 import 'package:scoutasks/screens/auth_screen/on_board_screen/on_board_screen.dart';
 import 'package:scoutasks/screens/auth_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:scoutasks/screens/auth_screen/choose_role_screen/choose_role_screen.dart';
+import 'package:scoutasks/screens/auth_screen/choose_role_screen/role_provider.dart';
 import 'package:scoutasks/screens/auth_screen/sign_up_screen/sign_up_screen.dart';
 import 'package:scoutasks/screens/auth_screen/technician_sign_up_screen/technician_sign_up_screen.dart';
 import 'package:scoutasks/screens/auth_screen/sign_up_verify_screen/sign_up_verify_screen.dart';
@@ -28,6 +29,8 @@ import 'package:scoutasks/screens/artisan_profile_screen/artisan_profile_screen.
 import 'package:scoutasks/screens/chat_screen/chat_screen.dart';
 import 'package:scoutasks/screens/profile_screen/profile_screen.dart';
 import 'package:scoutasks/screens/splash_screen/splash_screen.dart';
+import 'package:scoutasks/screens/technician_home_screen/technician_home_screen.dart';
+import 'package:scoutasks/screens/technician_schedule_screen/technician_schedule_screen.dart';
 import 'package:scoutasks/utils/app_log.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -45,7 +48,11 @@ class AppRoutes {
     initialLocation: AppRoutesKey.instance.initial,
     routes: [
       /// initial routes
-      GoRoute(path: AppRoutesKey.instance.initial, name: AppRoutesKey.instance.splash, builder: (context, state) => SplashScreen()),
+      GoRoute(
+        path: AppRoutesKey.instance.initial,
+        name: AppRoutesKey.instance.splash,
+        builder: (context, state) => SplashScreen(),
+      ),
       GoRoute(
         path: "/${AppRoutesKey.instance.noInternetScreen}",
         name: AppRoutesKey.instance.noInternetScreen,
@@ -56,10 +63,22 @@ class AppRoutes {
         name: AppRoutesKey.instance.notFoundScreen,
         builder: (context, state) => NotFoundScreen(),
       ),
-      GoRoute(path: "/${AppRoutesKey.instance.errorScreen}", name: AppRoutesKey.instance.errorScreen, builder: (context, state) => ErrorScreen()),
+      GoRoute(
+        path: "/${AppRoutesKey.instance.errorScreen}",
+        name: AppRoutesKey.instance.errorScreen,
+        builder: (context, state) => ErrorScreen(),
+      ),
       ////// base routes
-      GoRoute(path: "/${AppRoutesKey.instance.aboutScreen}", name: AppRoutesKey.instance.aboutScreen, builder: (context, state) => AboutUsScreen()),
-      GoRoute(path: "/${AppRoutesKey.instance.faqsScreen}", name: AppRoutesKey.instance.faqsScreen, builder: (context, state) => FaqScreen()),
+      GoRoute(
+        path: "/${AppRoutesKey.instance.aboutScreen}",
+        name: AppRoutesKey.instance.aboutScreen,
+        builder: (context, state) => AboutUsScreen(),
+      ),
+      GoRoute(
+        path: "/${AppRoutesKey.instance.faqsScreen}",
+        name: AppRoutesKey.instance.faqsScreen,
+        builder: (context, state) => FaqScreen(),
+      ),
       GoRoute(
         path: "/${AppRoutesKey.instance.privacyPolicyScreen}",
         name: AppRoutesKey.instance.privacyPolicyScreen,
@@ -72,9 +91,21 @@ class AppRoutes {
       ),
 
       ////// auth routes
-      GoRoute(path: "/${AppRoutesKey.instance.signInScreen}", name: AppRoutesKey.instance.signInScreen, builder: (context, state) => SignInScreen()),
-      GoRoute(path: "/${AppRoutesKey.instance.signUpScreen}", name: AppRoutesKey.instance.signUpScreen, builder: (context, state) => SignUpScreen()),
-      GoRoute(path: "/${AppRoutesKey.instance.technicianSignUpScreen}", name: AppRoutesKey.instance.technicianSignUpScreen, builder: (context, state) => TechnicianSignUpScreen()),
+      GoRoute(
+        path: "/${AppRoutesKey.instance.signInScreen}",
+        name: AppRoutesKey.instance.signInScreen,
+        builder: (context, state) => SignInScreen(),
+      ),
+      GoRoute(
+        path: "/${AppRoutesKey.instance.signUpScreen}",
+        name: AppRoutesKey.instance.signUpScreen,
+        builder: (context, state) => SignUpScreen(),
+      ),
+      GoRoute(
+        path: "/${AppRoutesKey.instance.technicianSignUpScreen}",
+        name: AppRoutesKey.instance.technicianSignUpScreen,
+        builder: (context, state) => TechnicianSignUpScreen(),
+      ),
       GoRoute(
         path: "/${AppRoutesKey.instance.chooseRoleScreen}",
         name: AppRoutesKey.instance.chooseRoleScreen,
@@ -100,7 +131,11 @@ class AppRoutes {
         builder: (context, state) => OnBoardScreen(),
       ),
 
-      GoRoute(path: "/${AppRoutesKey.instance.forgotScreen}", name: AppRoutesKey.instance.forgotScreen, builder: (context, state) => ForgotScreen()),
+      GoRoute(
+        path: "/${AppRoutesKey.instance.forgotScreen}",
+        name: AppRoutesKey.instance.forgotScreen,
+        builder: (context, state) => ForgotScreen(),
+      ),
 
       GoRoute(
         path: "/${AppRoutesKey.instance.allServicesScreen}",
@@ -119,7 +154,7 @@ class AppRoutes {
         name: AppRoutesKey.instance.artisanProfileScreen,
         builder: (context, state) => const ArtisanProfileScreen(),
       ),
-      
+
       /////// main route screen
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -131,7 +166,17 @@ class AppRoutes {
               GoRoute(
                 path: "/${AppRoutesKey.instance.homeScreen}",
                 name: AppRoutesKey.instance.homeScreen,
+                redirect: (context, state) {
+                  final role = ProviderScope.containerOf(context, listen: false).read(userRoleProvider);
+                  if (role == 'technician') return "/${AppRoutesKey.instance.technicianHomeScreen}";
+                  return null;
+                },
                 builder: (context, state) => HomeScreen(),
+              ),
+              GoRoute(
+                path: "/${AppRoutesKey.instance.technicianHomeScreen}",
+                name: AppRoutesKey.instance.technicianHomeScreen,
+                builder: (context, state) => const TechnicianHomeScreen(),
               ),
             ],
           ),
@@ -140,7 +185,17 @@ class AppRoutes {
               GoRoute(
                 path: "/${AppRoutesKey.instance.jobScreen}",
                 name: AppRoutesKey.instance.jobScreen,
+                redirect: (context, state) {
+                  final role = ProviderScope.containerOf(context, listen: false).read(userRoleProvider);
+                  if (role == 'technician') return "/${AppRoutesKey.instance.technicianScheduleScreen}";
+                  return null;
+                },
                 builder: (context, state) => JobScreen(),
+              ),
+              GoRoute(
+                path: "/${AppRoutesKey.instance.technicianScheduleScreen}",
+                name: AppRoutesKey.instance.technicianScheduleScreen,
+                builder: (context, state) => const TechnicianScheduleScreen(),
               ),
             ],
           ),
@@ -216,7 +271,13 @@ class AppRoutes {
     String? fragment,
   }) {
     try {
-      router.goNamed(value, pathParameters: pathParameters, extra: extra, fragment: fragment, queryParameters: queryParameters);
+      router.goNamed(
+        value,
+        pathParameters: pathParameters,
+        extra: extra,
+        fragment: fragment,
+        queryParameters: queryParameters,
+      );
     } catch (e) {
       errorLog("goNamed", e);
     }
@@ -284,7 +345,12 @@ class AppRoutes {
     Object? extra,
   }) {
     try {
-      router.pushReplacementNamed(value, pathParameters: pathParameters, extra: extra, queryParameters: queryParameters);
+      router.pushReplacementNamed(
+        value,
+        pathParameters: pathParameters,
+        extra: extra,
+        queryParameters: queryParameters,
+      );
     } catch (e) {
       errorLog("pushReplacementNamed", e);
     }

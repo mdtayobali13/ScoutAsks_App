@@ -8,6 +8,7 @@ import 'package:scoutasks/utils/gap.dart';
 import 'package:scoutasks/widgets/buttons/app_button.dart';
 import 'package:scoutasks/widgets/texts/app_text.dart';
 import '../widgets/auth_back_button_widget.dart';
+import 'role_provider.dart';
 import 'widgets/role_card_widget.dart';
 
 class ChooseRoleScreen extends ConsumerStatefulWidget {
@@ -15,7 +16,6 @@ class ChooseRoleScreen extends ConsumerStatefulWidget {
   const ChooseRoleScreen({super.key, this.isFromSignIn = false});
 
   @override
-
   ConsumerState<ChooseRoleScreen> createState() => _ChooseRoleScreenState();
 }
 
@@ -99,11 +99,12 @@ class _ChooseRoleScreenState extends ConsumerState<ChooseRoleScreen> {
               // Next Button
               AppButton(
                 onTap: () {
+                  ref.read(userRoleProvider.notifier).setRole(selectedRole);
                   if (widget.isFromSignIn) {
                     if (selectedRole == 'customer') {
                       AppRoutes.instance.goNamed(AppRoutesKey.instance.homeScreen);
                     } else {
-                      AppRoutes.instance.goNamed(AppRoutesKey.instance.homeScreen);
+                      AppRoutes.instance.goNamed(AppRoutesKey.instance.technicianHomeScreen);
                     }
                   } else {
                     if (selectedRole == 'technician') {

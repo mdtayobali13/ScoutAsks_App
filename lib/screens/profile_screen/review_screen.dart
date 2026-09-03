@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scoutasks/screens/auth_screen/choose_role_screen/role_provider.dart';
 import 'package:scoutasks/utils/gap.dart';
 import 'package:scoutasks/widgets/buttons/app_button.dart';
 import 'package:scoutasks/widgets/texts/app_text.dart';
@@ -7,12 +8,16 @@ import 'package:scoutasks/constant/app_colors.dart';
 import 'package:scoutasks/screens/profile_screen/widgets/my_review_card_widget.dart';
 import 'package:scoutasks/screens/profile_screen/widgets/report_review_bottom_sheet.dart';
 import 'package:scoutasks/screens/profile_screen/appeal_statues_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ReviewScreen extends StatelessWidget {
+class ReviewScreen extends ConsumerWidget {
   const ReviewScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final role = ref.watch(userRoleProvider);
+    final isTechnician = role == 'technician';
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -33,6 +38,7 @@ class ReviewScreen extends StatelessWidget {
                       color: Colors.black87,
                     ),
                   ),
+                  if (isTechnician)
                   AppButton(
                     title: "Appeal statues",
                     onTap: () {

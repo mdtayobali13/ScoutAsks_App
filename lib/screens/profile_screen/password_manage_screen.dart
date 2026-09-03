@@ -23,16 +23,11 @@ class PasswordManageScreen extends StatelessWidget {
                 children: [
                   const AuthBackButtonWidget(),
                   const Gap(width: 15),
-                  AppText(
-                    text: "Password manage",
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
+                  AppText(text: "Password manage", fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87),
                 ],
               ),
             ),
-            
+
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -40,37 +35,37 @@ class PasswordManageScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Gap(height: 20),
-                    
+
                     // Form Fields
                     AppInputWidgetTwo(
                       title: "Old Password",
                       titleFontSize: 16,
                       fontWeight: FontWeight.bold,
-                      hintText: "Enter old password",
+                      hintText: "123456",
                       prefix: Icon(Icons.lock_outline, color: Colors.grey.shade500),
                       isPassWord: true,
                       fillColor: Colors.white,
                       borderColor: Colors.grey,
                     ),
                     const Gap(height: 15),
-                    
+
                     AppInputWidgetTwo(
                       title: "New Password",
                       titleFontSize: 16,
                       fontWeight: FontWeight.bold,
-                      hintText: "Enter new password",
+                      hintText: "123456",
                       prefix: Icon(Icons.lock_outline, color: Colors.grey.shade500),
                       isPassWord: true,
                       fillColor: Colors.white,
                       borderColor: Colors.grey,
                     ),
                     const Gap(height: 15),
-                    
+
                     AppInputWidgetTwo(
                       title: "Confirm password",
                       titleFontSize: 16,
                       fontWeight: FontWeight.bold,
-                      hintText: "Confirm new password",
+                      hintText: "123456",
                       prefix: Icon(Icons.lock_outline, color: Colors.grey.shade500),
                       isPassWord: true,
                       fillColor: Colors.white,
@@ -81,7 +76,7 @@ class PasswordManageScreen extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             // Save Changes Button
             Padding(
               padding: const EdgeInsets.all(20),

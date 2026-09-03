@@ -38,4 +38,6 @@ class AppRoutesKey {
   final String artisanListScreen = "artisanListScreen";
   final String artisanProfileScreen = "artisanProfileScreen";
   final String profileScreen = "profileScreen";
+  final String technicianHomeScreen = "technicianHomeScreen";
+  final String technicianScheduleScreen = "technicianScheduleScreen";
 }
